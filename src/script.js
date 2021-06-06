@@ -1,19 +1,11 @@
 import './style.css'
 import * as THREE from 'three'
+
+// import asset
 import Cubies from './assets/cube'
+import mesh from './assets/helloElem'
 
 const primaryScene = new THREE.Scene()
-
-const cubePrimary = new THREE.BoxGeometry(1,1,1),
- materialPrimary = new THREE.MeshBasicMaterial({color:'#ff0000'}),
- mesh = new THREE.Mesh(cubePrimary,materialPrimary)
-
- 
-
- // transform position
- mesh.rotateY(45)
- mesh.position.set(2,1,0)
- mesh.scale.set(0.5,0.5,0.5)
 
 const FOV = 75,
  sizes = {width:800,height:600},
@@ -29,8 +21,10 @@ const FOV = 75,
  let axis = new THREE.AxesHelper()
  primaryScene.add(axis)
 
- // transform Scene
+ // transform graphic group
  Cubies.rotateZ(180)
+
+
  // add to scene
  primaryScene.add(Cubies)
  primaryScene.add(mesh)
