@@ -18,7 +18,7 @@ const parameters ={
 
 function SetGui ({camera, Group, material}) {
 
-   const gui = new GUI({closed:false,width:400})
+   const gui = new GUI({closed:true,width:400})
 
    let cameraFolder = gui.addFolder('Camera Control')
    cameraFolder.open()
