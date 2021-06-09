@@ -6,8 +6,10 @@ import gasp from 'gsap'
 import Cubies from './assets/cube'
 import mesh from './assets/helloElem'
 import AnimatedCube from './assets/animateCube'
+import Triangle from './assets/CustomGeometry'
 // import util
 import {resize,getFullScreen} from './util/browser'
+import Gui from './util/ParamUi'
 
 const primaryScene = new THREE.Scene()
 
@@ -32,8 +34,9 @@ primaryScene.add(axis)
 Cubies.rotateZ(180)
  // add to scene assets
  primaryScene.add(mesh)
-//  primaryScene.add(Cubies)
+primaryScene.add(Cubies)
 primaryScene.add(AnimatedCube)
+primaryScene.add(Triangle)
 primaryScene.add(camera)
 
 // Render all element
@@ -47,15 +50,20 @@ resize({sizes,camera,renderer});getFullScreen(canvas);
 
 const control = new OrbitControls(camera,canvas)
 control.enableDamping=true
+Gui({camera, Group:Cubies})
+
 // renderer.render(primaryScene,camera)
 
 // Animation  
 let time = Date.now()
 const clock = new THREE.Clock()
+
 gasp.to(mesh.position,{duration:1,delay:2,x: 0.5,y:2})
-gasp.to(mesh.position,{duration:1,delay:5,x: 2,y:0,z:-1})
+gasp.to(mesh.position,{duration:1,delay:5,x: 2,y:0,z:-1});gasp.to(mesh.position,{duration:1,delay:8,x: 2,y:1,z:0})
+
 
 const tick = () =>{
+
     const currentTime = Date.now()
     const deltaTime = currentTime - time; time = currentTime
     
@@ -72,3 +80,5 @@ const tick = () =>{
     window.requestAnimationFrame(tick)
  }
 tick()
+
+export const Camera = camera
