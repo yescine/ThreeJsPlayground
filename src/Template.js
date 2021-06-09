@@ -18,7 +18,7 @@ const FOV = 65,
    height:window.innerHeight // 600
 },
  camera = new THREE.PerspectiveCamera(FOV,sizes.width/sizes.height,1,1000)
- camera.position.z=4; camera.position.x=3; camera.position.y=3;
+ camera.position.z=4; camera.position.x=4; camera.position.y=4;
 
  // camera looking at
 let origin =[0,0,0]; camera.lookAt(...origin)
