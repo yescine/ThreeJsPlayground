@@ -4,7 +4,9 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import gasp from 'gsap'
 // import TickBasics from './Basics'
 // import asset
-import Grouped from './assets/lighting/Group'
+// import LightAndTexture from './container/LightAndTexture'
+import PortFolio from './container/PortFolio'
+
 // import util
 import {resize,getFullScreen} from './util/browser'
 // import Gui from './util/ParamUi'
@@ -30,7 +32,11 @@ primaryScene.add(axis)
 // transform graphic group
 
 primaryScene.add(camera)
-primaryScene.add(Grouped)
+primaryScene.add(
+   // LightAndTexture,
+   PortFolio
+)
+
 
 // Render all element
 const canvas = document.querySelector('.webgl'),
