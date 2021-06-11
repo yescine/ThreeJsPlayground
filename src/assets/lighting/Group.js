@@ -1,8 +1,11 @@
 import * as THREE from 'three'
+import {GUI} from 'dat.gui'
 
 const Group = new THREE.Group()
-
+const gui = new GUI({closed:true,width:400})
+const cubeTextureLoader = new THREE.CubeTextureLoader()
 const textureLoader = new THREE.TextureLoader()
+
 const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
 const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
 const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
@@ -10,6 +13,15 @@ const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
 const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
 const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
 
+// envirement texture 
+const envirementMapTexture = cubeTextureLoader.load([
+   '/textures/environmentMaps/0/px.jpg',
+   '/textures/environmentMaps/0/nx.jpg',
+   '/textures/environmentMaps/0/py.jpg',
+   '/textures/environmentMaps/0/ny.jpg',
+   '/textures/environmentMaps/0/pz.jpg',
+   '/textures/environmentMaps/0/nz.jpg',
+])
 
 const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
@@ -30,6 +42,8 @@ gradientTexture.generateMipmaps = false
 // simpleMaterial.gradientMap = gradientTexture
 
 const simpleMaterial = new THREE.MeshStandardMaterial()
+simpleMaterial.envMap=envirementMapTexture
+
 
 const plane = new THREE.Mesh(
    new THREE.PlaneBufferGeometry(4,4),
@@ -70,6 +84,9 @@ Group.add(ambientLight, pointLight)
 Group.add(sphere,plane,torus,card)
 
 const clock = new THREE.Clock()
+gui.add(simpleMaterial,'metalness').max(1).min(0).step(0.0001).setValue(0.7)
+gui.add(simpleMaterial,'roughness').max(1).min(0).step(0.0001).setValue(0.1)
+
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
 
