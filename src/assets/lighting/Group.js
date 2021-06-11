@@ -8,17 +8,28 @@ const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
 const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
 const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
 const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+
 
 const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
-
+gradientTexture.minFilter = THREE.NearestFilter
+gradientTexture.magFilter = THREE.NearestFilter
+gradientTexture.generateMipmaps = false
 // const simpleMaterial = new THREE.MeshBasicMaterial({map:doorColorTexture})
 // simpleMaterial.transparent= true
 // simpleMaterial.alphaMap = doorAlphaTexture
 
 // const simpleMaterial = new THREE.MeshNormalMaterial()
 
-const simpleMaterial = new THREE.MeshMatcapMaterial({matcap:matcapTexture})
+// const simpleMaterial = new THREE.MeshMatcapMaterial({matcap:matcapTexture})
+// const simpleMaterial = new THREE.MeshDepthMaterial()
+// const simpleMaterial = new THREE.MeshLambertMaterial()
+// const simpleMaterial = new THREE.MeshPhongMaterial()
+// const simpleMaterial = new THREE.MeshToonMaterial()
+// simpleMaterial.gradientMap = gradientTexture
+
+const simpleMaterial = new THREE.MeshStandardMaterial()
 
 const plane = new THREE.Mesh(
    new THREE.PlaneBufferGeometry(4,4),
@@ -38,12 +49,24 @@ const card = new THREE.Mesh(
 )
 card.position.set(-1.2,1,0)
 
+// set ambient occlusion
+card.geometry.setAttribute('uv2', new THREE.BufferAttribute(card.geometry.attributes.uv.array,2))
+simpleMaterial.aoMap=doorAmbientOcclusionTexture
+simpleMaterial.displacementMap=doorHeightTexture
+simpleMaterial.displacementScale= 0.04
+simpleMaterial.side = THREE.DoubleSide
+simpleMaterial.metalnessMap = doorMetalnessTexture
+simpleMaterial.normalMap = doorNormalTexture
 const torus = new THREE.Mesh(
    new THREE.TorusBufferGeometry(0.3,0.2,16,32),
    simpleMaterial
 )
 torus.position.set(1.2,1,0)
 
+const ambientLight = new THREE.AmbientLight('#ffffff',0.5)
+const pointLight = new THREE.PointLight('#ffffff',0.6)
+pointLight.position.set(2,3,4)
+Group.add(ambientLight, pointLight)
 Group.add(sphere,plane,torus,card)
 
 const clock = new THREE.Clock()
