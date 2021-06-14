@@ -29,11 +29,6 @@ const FOV = 65,
 
  // camera looking at
 let origin =[0,0,0]; camera.lookAt(...origin)
- // Axis Helper
-let axis = new THREE.AxesHelper()
-primaryScene.add(axis)
-
-// transform graphic group
 
 primaryScene.add(camera)
 primaryScene.add(
@@ -53,6 +48,7 @@ const canvas = document.querySelector('.webgl'),
   )
 renderer.setSize(sizes.width,sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
+renderer.setClearColor('#111111') // '#0d47a1'
 // shadow
 renderer.shadowMap.enabled=true
 renderer.shadowMap.type = THREE.PCFShadowMap
@@ -60,7 +56,7 @@ resize({sizes,camera,renderer});getFullScreen(canvas);
 
 const control = new OrbitControls(camera,canvas)
 control.enableDamping=true
-
+ 
 // renderer.render(primaryScene,camera)
 
 // Animation  
