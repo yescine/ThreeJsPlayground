@@ -21,6 +21,7 @@ Group.add(plane)
 
 const clock = new THREE.Clock()
 gui.add(plane,'visible').name('Ground').setValue(true)
+gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
