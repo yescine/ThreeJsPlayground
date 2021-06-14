@@ -47,6 +47,9 @@ const canvas = document.querySelector('.webgl'),
   )
 renderer.setSize(sizes.width,sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
+// shadow
+renderer.shadowMap.enabled=true
+renderer.shadowMap.type = THREE.PCFShadowMap
 resize({sizes,camera,renderer});getFullScreen(canvas);
 
 const control = new OrbitControls(camera,canvas)

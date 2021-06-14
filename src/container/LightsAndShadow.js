@@ -75,7 +75,16 @@ Group.add(plane)
 Group.add(sphere,cube,torus)
 
 // Shadow Addition
+plane.receiveShadow=true
+sphere.castShadow=true;sphere.receiveShadow=true
 
+pointLight.castShadow=true
+directionalLight.castShadow=true
+
+spotLigth.castShadow=true;spotLigth.shadow.mapSize.width=1024;spotLigth.shadow.mapSize.height=1024
+spotLigth.shadow.camera.near=2;spotLigth.shadow.camera.far=6; spotLigth.shadow.camera.fov=50
+const spotLigthCameraHelper = new THREE.CameraHelper(spotLigth.shadow.camera)
+Group.add(spotLigthCameraHelper)
 
 const clock = new THREE.Clock()
 
@@ -88,6 +97,9 @@ LightFolder.add(directionalLight,'visible').name('Behid -z directional Light').s
 LightFolder.add(hemisphereLight,'visible').name('hemisphere Light').setValue(false)
 LightFolder.add(rectLight,'visible').name('rectangle Light').setValue(true)
 LightFolder.add(spotLigth  ,'visible').name('spotLigth').setValue(true)
+const ShadowFolder = gui.addFolder('Shadow control');ShadowFolder.open()
+ShadowFolder.add(spotLigthCameraHelper  ,'visible').name('spot Ligth Camera').setValue(false)
+
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
