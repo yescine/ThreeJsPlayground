@@ -37,13 +37,18 @@ const ambientLight = new THREE.AmbientLight('#ffffff',0.1)
 const pointLight = new THREE.PointLight('#ffffff',0.6,7,1);pointLight.position.set(2,3,4)
 const directionalLight = new THREE.DirectionalLight('#ba68c6',0.4);directionalLight.position.set(0,0,-4)
 const hemisphereLight = new THREE.HemisphereLight('#3949ab','#ffab40',0.7)
-const rectLight = new THREE.RectAreaLight(0x4e00ff,2,1,1)
+const rectLight = new THREE.RectAreaLight(0x4e00ff,3,2,2);
+rectLight.position.set(0,0,2);rectLight.lookAt(torus.position);
+const spotLigth = new THREE.SpotLight('#78ff00',0.5,5,Math.PI*0.1,0.1,1)
+spotLigth.position.set(0,2,3);spotLigth.target.position.set(-0.75,0,0)
+
 Group.add(
    ambientLight, 
    pointLight,
    directionalLight,
    hemisphereLight,
-   rectLight
+   rectLight,
+   spotLigth,spotLigth.target
 )
 
 Group.add(plane)
@@ -57,6 +62,8 @@ LightFolder.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
 LightFolder.add(pointLight,'visible').name('point Light').setValue(false)
 LightFolder.add(directionalLight,'visible').name('Behid -z directional Light').setValue(false)
 LightFolder.add(hemisphereLight,'visible').name('hemisphere Light').setValue(false)
+LightFolder.add(rectLight,'visible').name('rectangle Light').setValue(true)
+LightFolder.add(spotLigth  ,'visible').name('spotLigth').setValue(true)
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
