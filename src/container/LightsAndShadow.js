@@ -34,7 +34,7 @@ const torus = new THREE.Mesh(
 torus.position.set(1.2,1,0)
 
 const helperSize = 0.2
-// light 
+// light  
 const ambientLight = new THREE.AmbientLight('#ffffff',0.1)
 
 const pointLight = new THREE.PointLight('#ffffff',0.6,7,1);pointLight.position.set(2,3,4)
@@ -74,8 +74,12 @@ Group.add(
 Group.add(plane)
 Group.add(sphere,cube,torus)
 
+// Shadow Addition
+
 
 const clock = new THREE.Clock()
+
+// Gui Dat helper
 gui.add(plane,'visible').name('Ground').setValue(true)
 const LightFolder = gui.addFolder('Light control');LightFolder.open()
 LightFolder.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
