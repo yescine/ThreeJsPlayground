@@ -35,23 +35,6 @@ fontLoader.load(
       textGeometry.center();textGeometry.translate(0,0.5,0)
       textMaterial.wireframe=false
       Group.add(textMesh)
-
-      console.time('donut creation')
-      const torusMaterial = new THREE.MeshMatcapMaterial({matcap:textureLoader.load('/textures/matcaps/4.png')})
-      const torusGeometry = new THREE.TorusBufferGeometry(0.3,0.2,20,45)
-      for (let idx = 0; idx < 200; idx++) {
-         const donut = new THREE.Mesh(torusGeometry,torusMaterial)
-         donut.position.x = (Math.random()-0.5)*10
-         donut.position.y = (Math.random()-0.5)*10
-         donut.position.z = (Math.random()-0.5)*10
-         donut.rotation.x = Math.random()*Math.PI
-         donut.rotation.y = Math.random()*Math.PI
-         const scale = Math.random()
-         donut.scale.set(scale,scale,scale)
-
-         Group.add(donut)    
-      }
-      console.timeEnd('donut creation')
    }
 )
 
@@ -60,6 +43,24 @@ const plane = new THREE.Mesh(
    new THREE.MeshBasicMaterial({side: THREE.DoubleSide})
 )
 plane.rotation.x=-Math.PI/2
+
+
+console.time('donut creation')
+const torusMaterial = new THREE.MeshMatcapMaterial({matcap:textureLoader.load('/textures/matcaps/4.png')})
+const torusGeometry = new THREE.TorusBufferGeometry(0.3,0.2,20,45)
+for (let idx = 0; idx < 200; idx++) {
+   const donut = new THREE.Mesh(torusGeometry,torusMaterial)
+   donut.position.x = (Math.random()-0.5)*10
+   donut.position.y = (Math.random()-0.5)*10
+   donut.position.z = (Math.random()-0.5)*10
+   donut.rotation.x = Math.random()*Math.PI
+   donut.rotation.y = Math.random()*Math.PI
+   const scale = Math.random()
+   donut.scale.set(scale,scale,scale)
+
+   Group.add(donut)    
+}
+console.timeEnd('donut creation')
 
 // const ambientLight = new THREE.AmbientLight('#ffffff',0.5)
 // const pointLight = new THREE.PointLight('#ffffff',0.6)
