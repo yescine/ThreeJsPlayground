@@ -5,7 +5,8 @@ import gasp from 'gsap'
 // import TickBasics from './Basics'
 // import asset
 // import LightAndTexture from './container/LightAndTexture'
-import PortFolio from './container/PortFolio'
+// import PortFolio from './container/PortFolio'
+import Lights from './container/Lights'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -34,7 +35,8 @@ primaryScene.add(axis)
 primaryScene.add(camera)
 primaryScene.add(
    // LightAndTexture,
-   PortFolio
+   // PortFolio,
+   Lights
 )
 
 
