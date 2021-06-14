@@ -6,7 +6,10 @@ import gasp from 'gsap'
 // import asset
 // import LightAndTexture from './container/LightAndTexture'
 // import PortFolio from './container/PortFolio'
-import LightsAndShadow from './container/LightsAndShadow'
+// import LightsAndShadow from './container/LightsAndShadow'
+// import House from './container/House'
+// import Particle from './container/Particle'
+import Galaxy from './container/Galaxy'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -36,7 +39,10 @@ primaryScene.add(camera)
 primaryScene.add(
    // LightAndTexture,
    // PortFolio,
-   LightsAndShadow
+   // LightsAndShadow,
+   // House,
+   // Particle,
+   Galaxy
 )
 
 
