@@ -14,7 +14,7 @@ const plane = new THREE.Mesh(
 plane.rotation.x=-Math.PI/2
 
 const parameterG = {
-   count:1000,size:0.02
+   count:1000,size:0.02,radius:2,branche:3,spin:1,randomness:0.2
 
 }
 /**
@@ -34,14 +34,22 @@ const generateGalaxy = () =>{
    /**
     * Geometry
     */
-   const {count,size} = parameterG
+   const {count,size,radius,branche,spin} = parameterG
    geometry = new THREE.BufferGeometry()
    const positions = new Float32Array(parameterG.count*3)
    for (let idx = 0; idx < count; idx++) {
       const i3 = idx*3
-      positions[i3+0] = (Math.random()-0.5)*3
-      positions[i3+1] = (Math.random()-0.5)*3
-      positions[i3+2] = (Math.random()-0.5)*3
+      const randRadius = Math.random()*radius
+      const brancheAngle = ((idx%branche)/branche) * (2*Math.PI)
+      const spinAngle = randRadius*spin
+
+      const randomX = (Math.random()-0.5) * parameterG.randomness
+      const randomY= (Math.random()-0.5) * parameterG.randomness
+      const randomZ= (Math.random()-0.5) * parameterG.randomness
+
+      positions[i3+0] = Math.cos(brancheAngle+spinAngle)*randRadius + randomX
+      positions[i3+1] = randomY
+      positions[i3+2] = Math.sin(brancheAngle + spinAngle)*randRadius + randomZ
       
    }
    geometry.setAttribute('position', new THREE.BufferAttribute(positions,3))
@@ -82,6 +90,10 @@ gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
 const gFolder = gui.addFolder('Galaxy');gFolder.close()
 gFolder.add(parameterG,'count',100,100000,100).name('star count').onFinishChange(generateGalaxy)
 gFolder.add(parameterG,'size',0.001,0.1,0.001).name('size').onFinishChange(generateGalaxy)
+gFolder.add(parameterG,'radius',2,10,0.1).name('Radius').onFinishChange(generateGalaxy)
+gFolder.add(parameterG,'branche',2,15,1).name('branche').onFinishChange(generateGalaxy)
+gFolder.add(parameterG,'spin',-5,5,0.01).onChange(generateGalaxy)
+gFolder.add(parameterG,'randomness',0,1,0.01).onFinishChange(generateGalaxy)
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
