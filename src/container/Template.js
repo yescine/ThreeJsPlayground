@@ -19,9 +19,14 @@ pointLight.position.set(2,3,4)
 Group.add(ambientLight, pointLight)
 Group.add(plane)
 
+// Helpers
+let axis = new THREE.AxesHelper()
+Group.add(axis)
+
 const clock = new THREE.Clock()
 gui.add(plane,'visible').name('Ground').setValue(true)
 gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
+gui.add(axis,'visible').name('Axis xyz').setValue(false)
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
