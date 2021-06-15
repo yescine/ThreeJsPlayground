@@ -22,7 +22,7 @@ const ball = new THREE.Mesh(
    new THREE.SphereBufferGeometry(0.3,32,32),
    new THREE.MeshStandardMaterial()
 )
-ball.position.set(1,1,1);ball.castShadow=true
+ball.position.set(0,1,0);ball.castShadow=true
 console.log(ball)
 
 /**
@@ -30,9 +30,29 @@ console.log(ball)
  */
 const world = new Cannon.World()
 world.gravity.set(0,-9.82,0)
+
+// Materials
+const concreteMaterial = new Cannon.Material('concrete')
+const plasticMaterial = new Cannon.Material('plastic')
+const contactPC = new Cannon.ContactMaterial(concreteMaterial,plasticMaterial,
+   {
+      friction:0.3,
+      restitution:0.5,
+   })
+
+world.addContactMaterial(contactPC)
+
+// Body
 const ballShape = new Cannon.Sphere(ball.geometry.parameters.radius)
-const ballBody = new Cannon.Body({mass:1,position:new Cannon.Vec3(0,3,0),shape:ballShape})
+const ballBody = new Cannon.Body({mass:1,position:new Cannon.Vec3(0,4,0),shape:ballShape,material:plasticMaterial})
+ballBody.applyLocalForce(new Cannon.Vec3(150,0,0), new Cannon.Vec3(0,0,0))
+
+const groundBody = new Cannon.Body({shape:new Cannon.Plane(),mass:0,material:concreteMaterial})
+groundBody.quaternion.setFromAxisAngle(new Cannon.Vec3(1,0,0),-Math.PI/2)
+
 world.addBody(ballBody)
+world.addBody(groundBody)
+
 
 /**
  * light
@@ -65,13 +85,12 @@ const tick = ()=>{
    const deltaTime = elapsedTime-oldElapsedTime
    oldElapsedTime = elapsedTime 
    // update physics world
+   ballBody.applyForce(new Cannon.Vec3(-0.5,0,0),ballBody.position)
    world.step(1/60,deltaTime,3)
    // update object
-   ball.position.y = ballBody.position.y
+   ball.position.copy(ballBody.position)
    
    window.requestAnimationFrame(tick)
-
-
 }
 
 tick()
