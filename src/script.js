@@ -10,7 +10,9 @@ import gasp from 'gsap'
 // import House from './container/House'
 // import Particle from './container/Particle'
 // import Galaxy from './container/Galaxy'
-import RayCaster from './container/RayCaster'
+// import RayCaster from './container/RayCaster'
+import Physics from './container/physics/Ball'
+
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -39,7 +41,8 @@ primaryScene.add(
    // House,
    // Particle,
    // Galaxy,
-   RayCaster
+   // RayCaster,
+   Physics
 )
 
 
