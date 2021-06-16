@@ -3,7 +3,7 @@ import {GUI} from 'dat.gui'
 import Cannon from 'cannon'
 
 const Group = new THREE.Group()
-const gui = new GUI({closed:true,width:400})
+const gui = new GUI({closed:false,width:400})
 
 const textureLoader = new THREE.TextureLoader()
 // const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
@@ -47,10 +47,55 @@ const ballShape = new Cannon.Sphere(ball.geometry.parameters.radius)
 const ballBody = new Cannon.Body({mass:1,position:new Cannon.Vec3(0,4,0),shape:ballShape,material:plasticMaterial})
 ballBody.applyLocalForce(new Cannon.Vec3(150,0,0), new Cannon.Vec3(0,0,0))
 
+world.addBody(ballBody)
+
+// -- Create Drop of Ball
+const defaultMaterial = new Cannon.Material('default')
+const contactDefault = new Cannon.ContactMaterial(defaultMaterial,defaultMaterial,
+   {
+      friction:0.4,
+      restitution:0.4,
+   })
+
+world.addContactMaterial(contactDefault)
+
+const ObjectToUpdate = []
+const sphereGeometry = new THREE.SphereBufferGeometry(1,20,20)
+const sphereMaterial = new THREE.MeshStandardMaterial({
+   metalness:0.3,roughness:0.4
+})
+
+const createSphere = (radius,position)=>{
+   // *Three Js
+   const mesh = new THREE.Mesh(sphereGeometry,sphereMaterial)
+   mesh.scale.set(radius,radius,radius)// mesh.geometry.parameters.radius =radius
+   mesh.castShadow=true
+   mesh.position.copy(position)
+   Group.add(mesh)
+
+   // * Cannon Js
+   const rho = 0.8
+   const shape = new Cannon.Sphere(radius)
+   const body = new Cannon.Body({
+      mass:1,// Math.abs(radius*rho),
+      position:new Cannon.Vec3(0,0,0),
+      shape,
+      material:defaultMaterial
+   })
+   body.position.copy(position)
+   world.addBody(body)
+   ObjectToUpdate.push({mesh,body})
+   console.log('ball created',radius)
+}
+
+const debugObject = {
+   createSphere: ()=>{
+      createSphere(Math.random()+0.1,{x:(Math.random()-0.5)*3,y:3+(Math.random()-0.5),z:(Math.random()-0.5)*3})   
+   }
+}
+
 const groundBody = new Cannon.Body({shape:new Cannon.Plane(),mass:0,material:concreteMaterial})
 groundBody.quaternion.setFromAxisAngle(new Cannon.Vec3(1,0,0),-Math.PI/2)
-
-world.addBody(ballBody)
 world.addBody(groundBody)
 
 
@@ -74,6 +119,7 @@ Group.add(axis)
 /**
  * Gui . data
  */
+ gui.add(debugObject,'createSphere')
 gui.add(plane,'visible').name('Ground').setValue(true)
 gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
 gui.add(axis,'visible').name('Axis xyz').setValue(true)
@@ -85,10 +131,13 @@ const tick = ()=>{
    const deltaTime = elapsedTime-oldElapsedTime
    oldElapsedTime = elapsedTime 
    // update physics world
-   ballBody.applyForce(new Cannon.Vec3(-0.5,0,0),ballBody.position)
-   world.step(1/60,deltaTime,3)
    // update object
    ball.position.copy(ballBody.position)
+   ballBody.applyForce(new Cannon.Vec3(-0.5,0,0),ballBody.position)
+   ObjectToUpdate.forEach(({mesh,body})=>{
+      mesh.position.copy(body.position)
+   })
+   world.step(1/60,deltaTime,3)
    
    window.requestAnimationFrame(tick)
 }
