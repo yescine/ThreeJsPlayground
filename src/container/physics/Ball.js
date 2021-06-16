@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import {GUI} from 'dat.gui'
-import Cannon from 'cannon'
+// import Cannon from 'cannon'
+import * as Cannon from 'cannon-es'
 import { Scene } from 'three'
 
 const Group = new THREE.Group()
