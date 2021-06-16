@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import Cannon from 'cannon'
+import { Scene } from 'three'
 
 const Group = new THREE.Group()
 const gui = new GUI({closed:false,width:400})
@@ -26,6 +27,11 @@ ball.position.set(0,1,0);ball.castShadow=true
 console.log(ball)
 
 /**
+ * Sounds
+ */
+const hitSound = new Audio('/sounds/hit.mp3')
+
+/**
  * Physics
  */
 const world = new Cannon.World()
@@ -42,6 +48,14 @@ const contactPC = new Cannon.ContactMaterial(concreteMaterial,plasticMaterial,
       restitution:0.5,
    })
 
+const defaultMaterial = new Cannon.Material('default')
+const contactDefault = new Cannon.ContactMaterial(defaultMaterial,defaultMaterial,
+   {
+      friction:0.3,
+      restitution:0.8,
+   })
+
+world.addContactMaterial(contactDefault)
 world.addContactMaterial(contactPC)
 
 // Body
@@ -52,25 +66,27 @@ ballBody.applyLocalForce(new Cannon.Vec3(150,0,0), new Cannon.Vec3(0,0,0))
 world.addBody(ballBody)
 
 // -- Create Drop of Ball
-const defaultMaterial = new Cannon.Material('default')
-const contactDefault = new Cannon.ContactMaterial(defaultMaterial,defaultMaterial,
-   {
-      friction:0.3,
-      restitution:0.8,
-   })
-
-world.addContactMaterial(contactDefault)
 
 const ObjectToUpdate = []
 const sphereGeometry = new THREE.SphereBufferGeometry(1,20,20)
 const sphereMaterial = new THREE.MeshStandardMaterial({
    metalness:0.3,roughness:0.4
 })
-
+const playHitSound = (collision)=>{
+   let amp = collision.contact.getImpactVelocityAlongNormal()
+   // console.log('collision',amp)
+   
+   if(amp>2){
+      hitSound.volume=Math.random()
+      hitSound.currentTime=0;
+      hitSound.play();
+   }
+}
 const createSphere = (radius,position)=>{
-   // *Three Js
+   // * Three Js
    const mesh = new THREE.Mesh(sphereGeometry,sphereMaterial)
-   mesh.scale.set(radius,radius,radius)// mesh.geometry.parameters.radius =radius
+   // mesh.geometry.parameters.radius =radius // !bufy with the ground need update
+   mesh.scale.set(radius,radius,radius)
    mesh.castShadow=true
    mesh.position.copy(position)
    Group.add(mesh)
@@ -87,16 +103,28 @@ const createSphere = (radius,position)=>{
    body.position.copy(position)
    world.addBody(body)
    ObjectToUpdate.push({mesh,body})
+
+   // * add Sounds
+   body.addEventListener('collide',playHitSound)
    console.log('ball created',radius)
 }
 
 const debugObject = {
    createSphere: ()=>{
       createSphere(Math.random()+0.1,{x:(Math.random()-0.5)*3,y:3+(Math.random()-0.5),z:(Math.random()-0.5)*3})   
+   },
+   resetObject:()=>{
+      ObjectToUpdate.forEach(({body,mesh})=>{
+         body.removeEventListener('collide',playHitSound)
+         world.remove(body)
+         Group.remove(mesh)
+      })
    }
 }
 
-const groundBody = new Cannon.Body({shape:new Cannon.Plane(),mass:0,material:concreteMaterial})
+const groundBody = new Cannon.Body({shape:new Cannon.Plane(),mass:0,
+   material:defaultMaterial // concreteMaterial
+})
 groundBody.quaternion.setFromAxisAngle(new Cannon.Vec3(1,0,0),-Math.PI/2)
 world.addBody(groundBody)
 
@@ -121,7 +149,8 @@ Group.add(axis)
 /**
  * Gui . data
  */
- gui.add(debugObject,'createSphere')
+gui.add(debugObject,'createSphere')
+gui.add(debugObject,'resetObject')
 gui.add(plane,'visible').name('Ground').setValue(true)
 gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
 gui.add(axis,'visible').name('Axis xyz').setValue(true)
