@@ -29,6 +29,8 @@ console.log(ball)
  * Physics
  */
 const world = new Cannon.World()
+world.broadphase = new Cannon.SAPBroadphase(world)
+world.allowSleep=true
 world.gravity.set(0,-9.82,0)
 
 // Materials
@@ -53,8 +55,8 @@ world.addBody(ballBody)
 const defaultMaterial = new Cannon.Material('default')
 const contactDefault = new Cannon.ContactMaterial(defaultMaterial,defaultMaterial,
    {
-      friction:0.4,
-      restitution:0.4,
+      friction:0.3,
+      restitution:0.8,
    })
 
 world.addContactMaterial(contactDefault)
@@ -77,7 +79,7 @@ const createSphere = (radius,position)=>{
    const rho = 0.8
    const shape = new Cannon.Sphere(radius)
    const body = new Cannon.Body({
-      mass:1,// Math.abs(radius*rho),
+      mass: Math.abs(Math.pow(radius,3)*rho),
       position:new Cannon.Vec3(0,0,0),
       shape,
       material:defaultMaterial
@@ -136,6 +138,7 @@ const tick = ()=>{
    ballBody.applyForce(new Cannon.Vec3(-0.5,0,0),ballBody.position)
    ObjectToUpdate.forEach(({mesh,body})=>{
       mesh.position.copy(body.position)
+      mesh.quaternion.copy(body.quaternion)
    })
    world.step(1/60,deltaTime,3)
    
