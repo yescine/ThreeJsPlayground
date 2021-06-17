@@ -28,8 +28,22 @@ console.log(ball)
 /**
  * Physics
  */
+
+
 const world = new Cannon.World()
 world.gravity.set(0,-9.82,0)
+
+// ?Material
+const defaultMaterial = new Cannon.Material('default')
+const contactDefault = new Cannon.ContactMaterial(defaultMaterial,defaultMaterial,
+   {
+      friction:0.3,
+      restitution:0.6,
+   })
+
+world.addContactMaterial(contactDefault)
+
+// add Body 
 const ballShape = new Cannon.Sphere(ball.geometry.parameters.radius)
 const ballBody = new Cannon.Body({mass:1,position:new Cannon.Vec3(0,3,0),shape:ballShape})
 world.addBody(ballBody)
