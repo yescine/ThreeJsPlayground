@@ -50,14 +50,21 @@ primaryScene.add(
 // Render all element
 const canvas = document.querySelector('.webgl'),
   renderer = new THREE.WebGLRenderer(
-     {canvas}
+     {canvas,
+      antialias:false
+   }
   )
 renderer.setSize(sizes.width,sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
 renderer.setClearColor('#111111') // '#0d47a1'
-// shadow
+// -- shadow
 renderer.shadowMap.enabled=true
 renderer.shadowMap.type = THREE.PCFShadowMap
+// -- Realistic Render
+renderer.physicallyCorrectLights=false
+renderer.outputEncoding = THREE.sRGBEncoding
+
+
 resize({sizes,camera,renderer});getFullScreen(canvas);
 
 const control = new OrbitControls(camera,canvas)

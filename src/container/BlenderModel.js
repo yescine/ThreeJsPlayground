@@ -26,6 +26,7 @@ gltfLoader.load('/models/Fox/glTF/Fox.gltf',
       Group.add(scene)
       scene.position.set(-2,0,-2);scene.rotateY(Math.PI/4);
       scene.scale.set(0.02,0.02,0.02)
+      scene.castShadow=true
    }
 )
 
@@ -59,6 +60,7 @@ plane.rotation.x=-Math.PI/2;plane.material.metalness=0.5;plane.material.roughnes
 const ambientLight = new THREE.AmbientLight('#ffffff',0.5)
 const pointLight = new THREE.PointLight('#ffffff',0.6)
 pointLight.position.set(2,3,4)
+pointLight.shadow.normalBias=0.05 // ? prevent shadow acne
 Group.add(ambientLight, pointLight)
 Group.add(plane)
 
