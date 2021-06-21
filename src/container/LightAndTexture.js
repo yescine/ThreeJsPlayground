@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 
 const Group = new THREE.Group()
-const gui = new GUI({closed:true,width:400})
+const gui = new GUI({closed:false})
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 const textureLoader = new THREE.TextureLoader()
 
@@ -84,8 +84,9 @@ Group.add(ambientLight, pointLight)
 Group.add(sphere,plane,torus,card)
 
 const clock = new THREE.Clock()
-gui.add(simpleMaterial,'metalness').max(1).min(0).step(0.0001).setValue(0.7)
-gui.add(simpleMaterial,'roughness').max(1).min(0).step(0.0001).setValue(0.1)
+const FirstF = gui.addFolder('Light and texture')
+FirstF.add(simpleMaterial,'metalness').max(1).min(0).step(0.0001).setValue(0.7)
+FirstF.add(simpleMaterial,'roughness').max(1).min(0).step(0.0001).setValue(0.1)
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()

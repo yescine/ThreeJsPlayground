@@ -3,7 +3,7 @@ import {GUI} from 'dat.gui'
 // import typeFace from 'three/examples/fonts/helvetiker_regular.typeface.json'
 
 const Group = new THREE.Group()
-const gui = new GUI({closed:true,width:400})
+const gui = new GUI({closed:false,name:'PortFolio'})
 
 const textureLoader = new THREE.TextureLoader()
 const fontLoader = new THREE.FontLoader()
@@ -69,7 +69,9 @@ console.timeEnd('donut creation')
 Group.add(plane)
 
 const clock = new THREE.Clock()
-gui.add(plane,'visible').name('Ground').setValue(true)
+const portF = gui.addFolder('PortFolio Text')
+
+portF.add(plane,'visible').name('Ground').setValue(true)
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()

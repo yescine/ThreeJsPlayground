@@ -9,7 +9,7 @@ import fragmentP from './fragmentP.glsl'
 console.log(testfragment)
 
 const Group = new THREE.Group()
-const gui = new GUI({closed:true,width:400})
+const gui = new GUI({closed:false})
 
 const textureLoader = new THREE.TextureLoader()
 const flagTexture = textureLoader.load('/textures/flag-tunisia.png')
@@ -42,6 +42,7 @@ planeGeometry.setAttribute('aRandom', new THREE.BufferAttribute(random,1))
 console.log('planeGeometry',planeGeometry.attributes)
 const plane = new THREE.Mesh(planeGeometry,material)
 
+// !Do error to see the prepended shader code
 const materialP = new THREE.ShaderMaterial({
    vertexShader:vertexP,
    fragmentShader:fragmentP,
@@ -83,11 +84,12 @@ Group.add(axis)
 /**
  * Gui . data
  */
-gui.add(plane,'visible').name('Ground').setValue(true)
-gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
-gui.add(axis,'visible').name('Axis xyz').setValue(true)
-gui.add(material.uniforms.uFrequency.value,'x',1,10,0.01).name('Wave freq X')
-gui.add(material.uniforms.uFrequency.value,'y',1,10,0.01).name('Wave freq Y')
+const ShadersFolder = gui.addFolder('Shader Basics')
+ShadersFolder.add(plane,'visible').name('Ground').setValue(true)
+ShadersFolder.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
+ShadersFolder.add(axis,'visible').name('Axis xyz').setValue(true)
+ShadersFolder.add(material.uniforms.uFrequency.value,'x',1,10,0.01).name('Wave freq X')
+ShadersFolder.add(material.uniforms.uFrequency.value,'y',1,10,0.01).name('Wave freq Y')
 
 
 const clock = new THREE.Clock()

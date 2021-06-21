@@ -12,6 +12,12 @@ body
 h1{
     padding: 1rem;
 }
+.dg.a{
+    padding: 0.1rem 0px;
+}
+.dg.main .close-button.close-bottom {
+    display: none;
+}
 
 /* .webgl
 {

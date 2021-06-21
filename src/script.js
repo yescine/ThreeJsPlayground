@@ -1,11 +1,12 @@
-// import './style.css'
+import './style.css'
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import {GUI} from 'dat.gui'
 import gasp from 'gsap'
 // import TickBasics from './Basics'
 // import asset
-// import LightAndTexture from './container/LightAndTexture'
-// import PortFolio from './container/PortFolio'
+import LightAndTexture from './container/LightAndTexture'
+import PortFolio from './container/PortFolio'
 // import LightsAndShadow from './container/LightsAndShadow'
 // import House from './container/House'
 // import Particle from './container/Particle'
@@ -19,6 +20,7 @@ import ShadersBasics from './container/Shaders/basics'
 import {resize,getFullScreen} from './util/browser'
 // import Gui from './util/ParamUi'
 
+const gui = new GUI({closed:false,width:500})
 const primaryScene = new THREE.Scene()
 // export const loadingManager = new THREE.LoadingManager()
 
@@ -36,8 +38,8 @@ let origin =[0,0,0]; camera.lookAt(...origin)
 
 primaryScene.add(camera)
 primaryScene.add(
-   // LightAndTexture,
-   // PortFolio,
+   LightAndTexture,
+   PortFolio,
    // LightsAndShadow,
    // House,
    // Particle,
@@ -72,7 +74,13 @@ resize({sizes,camera,renderer});getFullScreen(canvas);
 const control = new OrbitControls(camera,canvas)
 control.enableDamping=true
  
-// renderer.render(primaryScene,camera)
+// -- Gui
+const lessonFolder = gui.addFolder('load lesson')
+
+lessonFolder.add(LightAndTexture,'visible').name('Light and texture').setValue(false)
+lessonFolder.add(PortFolio,'visible').name('PortFolio').setValue(false)
+lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
+
 
 // Animation  
 const clock = new THREE.Clock()
