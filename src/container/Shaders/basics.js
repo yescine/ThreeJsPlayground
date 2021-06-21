@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import testVertexShaders from './vertex.glsl'
 import testfragment from './fragment.glsl'
+import vertexP from './vertexP.glsl'
+import fragmentP from './fragmentP.glsl'
 
 
 console.log(testfragment)
@@ -10,7 +12,8 @@ const Group = new THREE.Group()
 const gui = new GUI({closed:true,width:400})
 
 const textureLoader = new THREE.TextureLoader()
-// const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
+const flagTexture = textureLoader.load('/textures/flag-tunisia.png')
+
 const params = {waveX:10,waveY:5}
 
 const material = new THREE.RawShaderMaterial({
@@ -19,7 +22,8 @@ const material = new THREE.RawShaderMaterial({
    uniforms:{
       uFrequency:{value:new THREE.Vector2(params.waveX,params.waveY )},
       uTime:{value:0},
-      uColor:{value: new THREE.Color('orange')}
+      uColor:{value: new THREE.Color('cyan')},
+      uTexture:{value:flagTexture}
    },
    wireframe:false, 
    side:THREE.DoubleSide,
@@ -38,6 +42,22 @@ planeGeometry.setAttribute('aRandom', new THREE.BufferAttribute(random,1))
 console.log('planeGeometry',planeGeometry.attributes)
 const plane = new THREE.Mesh(planeGeometry,material)
 
+const materialP = new THREE.ShaderMaterial({
+   vertexShader:vertexP,
+   fragmentShader:fragmentP,
+   uniforms:{
+      uFrequency:{value:new THREE.Vector2(params.waveX,params.waveY )},
+      uTime:{value:0},
+      uColor:{value: new THREE.Color('cyan')},
+   },
+   wireframe:false, 
+   side:THREE.DoubleSide,
+   transparent:true,
+   })
+const plane2 = new THREE.Mesh(planeGeometry,materialP)
+plane2.position.z=-1
+
+
 /**
  * new Object 
  */
@@ -52,7 +72,7 @@ const ambientLight = new THREE.AmbientLight('#ffffff',0.5)
 Group.add(ambientLight, 
    // pointLight
 )
-Group.add(plane)
+Group.add(plane,plane2)
 
 /**
  *  Helpers
