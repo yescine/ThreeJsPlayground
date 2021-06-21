@@ -1,4 +1,4 @@
 node_modules
 __MACOSX
-shaders
+src/shaders
 static
