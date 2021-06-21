@@ -13,18 +13,22 @@ const textureLoader = new THREE.TextureLoader()
 // const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
 const material = new THREE.RawShaderMaterial({
    vertexShader:testVertexShaders,
-   fragmentShader:`
-      precision mediump float; 
-      void main () {
-         gl_FragColor = vec4(1.0,1,0.2,1.0);
-      }`,
-      wireframe:true, 
-      side:THREE.DoubleSide
+   fragmentShader:testfragment,
+      wireframe:false, 
+      side:THREE.DoubleSide,
+      transparent:true
    })
-const plane = new THREE.Mesh(
-   new THREE.PlaneBufferGeometry(4,4),
-   material
-)
+
+const planeGeometry = new THREE.PlaneBufferGeometry(3,3,32,32);
+const count = planeGeometry.attributes.position.count;
+const random = new Float32Array(count)
+for (let idx = 0; idx < count; idx++) {
+   random[idx] = (Math.random()-0.5);
+   
+}
+planeGeometry.setAttribute('aRandom', new THREE.BufferAttribute(random,1))
+console.log('planeGeometry',planeGeometry.attributes)
+const plane = new THREE.Mesh(planeGeometry,material)
 
 /**
  * new Object 
