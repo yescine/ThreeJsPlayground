@@ -12,7 +12,8 @@ import gasp from 'gsap'
 // import Galaxy from './container/Galaxy'
 // import RayCaster from './container/RayCaster'
 // import Physics from './container/physics/Ball'
-import BlenderModel from './container/BlenderModel'
+// import BlenderModel from './container/BlenderModel'
+import ShadersBasics from './container/Shaders/basics'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -43,7 +44,8 @@ primaryScene.add(
    // Galaxy,
    // RayCaster,
    // Physics,
-   BlenderModel
+   // BlenderModel,
+   ShadersBasics
 )
 
 
