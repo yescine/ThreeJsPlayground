@@ -11,12 +11,20 @@ const gui = new GUI({closed:true,width:400})
 
 const textureLoader = new THREE.TextureLoader()
 // const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
+const params = {waveX:10,waveY:5}
+
 const material = new THREE.RawShaderMaterial({
    vertexShader:testVertexShaders,
    fragmentShader:testfragment,
-      wireframe:false, 
-      side:THREE.DoubleSide,
-      transparent:true
+   uniforms:{
+      uFrequency:{value:new THREE.Vector2(params.waveX,params.waveY )},
+      uTime:{value:0},
+      uColor:{value: new THREE.Color('orange')}
+   },
+   wireframe:false, 
+   side:THREE.DoubleSide,
+   transparent:true,
+
    })
 
 const planeGeometry = new THREE.PlaneBufferGeometry(3,3,32,32);
@@ -58,10 +66,16 @@ Group.add(axis)
 gui.add(plane,'visible').name('Ground').setValue(true)
 gui.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
 gui.add(axis,'visible').name('Axis xyz').setValue(true)
+gui.add(material.uniforms.uFrequency.value,'x',1,10,0.01).name('Wave freq X')
+gui.add(material.uniforms.uFrequency.value,'y',1,10,0.01).name('Wave freq Y')
+
 
 const clock = new THREE.Clock()
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
+   // !update Material
+   material.uniforms.uTime.value = (elapsedTime*2)
+
    window.requestAnimationFrame(tick)
 
 }
