@@ -12,7 +12,7 @@ const textureLoader = new THREE.TextureLoader()
 /**
  * Material
  */
-const params = {surface:'#0000ff',depth:'#8888ff'}
+const params = {surface:'#186691',depth:'#9bd8ff'}
 const material = new THREE.ShaderMaterial({
    vertexShader:vertexShader,
    fragmentShader:fragmentShader,
@@ -23,7 +23,9 @@ const material = new THREE.ShaderMaterial({
       uElevation:{value:1},
       wave:{value:new THREE.Vector2(4,4)},
       uSurfaceColor:{value:new THREE.Color(params.surface)},
-      uDepth:{value:new THREE.Color(params.depth)}
+      uDepthColor:{value:new THREE.Color(params.depth)},
+      uNoise:{value:2},
+      uSmallWaveElevation:{value:0.3}
 
    }
 })
@@ -60,7 +62,9 @@ newLesson.add(material.uniforms.uElevation,'value',1,10,0.01).name('Elevation').
 newLesson.add(material.uniforms.wave.value,'x',0,10,0.01).name('waveX').setValue(2)
 newLesson.add(material.uniforms.wave.value,'y',0,10,0.01).name('waveY').setValue(1)
 newLesson.addColor(params,'surface').name('Surface Color').onChange(()=>{material.uniforms.uSurfaceColor.value.set(params.surface)})
-newLesson.addColor(params,'depth').name('depth Color').onChange(()=>{material.uniforms.uSurfaceColor.value.set(params.depth)})
+newLesson.addColor(params,'depth').name('depth Color').onChange(()=>{material.uniforms.uDepthColor.value.set(params.depth)})
+newLesson.add(material.uniforms.uNoise,'value',2,10,1).name('noise Level').setValue(2)
+newLesson.add(material.uniforms.uSmallWaveElevation,'value',0.1,2,0.01).name('uSmallWaveElevation Level')
 
 
 const clock = new THREE.Clock()
