@@ -5,8 +5,8 @@ import {GUI} from 'dat.gui'
 import gasp from 'gsap'
 // import TickBasics from './Basics'
 // import asset
-import LightAndTexture from './container/LightAndTexture'
-import PortFolio from './container/PortFolio'
+// import LightAndTexture from './container/LightAndTexture'
+// import PortFolio from './container/PortFolio'
 // import LightsAndShadow from './container/LightsAndShadow'
 // import House from './container/House'
 // import Particle from './container/Particle'
@@ -14,7 +14,8 @@ import PortFolio from './container/PortFolio'
 // import RayCaster from './container/RayCaster'
 // import Physics from './container/physics/Ball'
 // import BlenderModel from './container/BlenderModel'
-import ShadersBasics from './container/Shaders/basics'
+// import ShadersBasics from './container/Shaders/basics'
+import PatternShaders from './container/Shaders/pattern'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -38,8 +39,8 @@ let origin =[0,0,0]; camera.lookAt(...origin)
 
 primaryScene.add(camera)
 primaryScene.add(
-   LightAndTexture,
-   PortFolio,
+   // LightAndTexture,
+   // PortFolio,
    // LightsAndShadow,
    // House,
    // Particle,
@@ -47,7 +48,8 @@ primaryScene.add(
    // RayCaster,
    // Physics,
    // BlenderModel,
-   ShadersBasics
+   // ShadersBasics,
+   PatternShaders
 )
 
 
@@ -77,9 +79,10 @@ control.enableDamping=true
 // -- Gui
 const lessonFolder = gui.addFolder('load lesson')
 
-lessonFolder.add(LightAndTexture,'visible').name('Light and texture').setValue(false)
-lessonFolder.add(PortFolio,'visible').name('PortFolio').setValue(false)
-lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
+// lessonFolder.add(LightAndTexture,'visible').name('Light and texture').setValue(false)
+// lessonFolder.add(PortFolio,'visible').name('PortFolio').setValue(false)
+// lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
+lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
 
 
 // Animation  
