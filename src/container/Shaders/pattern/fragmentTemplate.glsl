@@ -95,11 +95,18 @@ void main () {
       // draw elipse f*g
       float circleR = 0.2;
       strength *= step(0.005,abs(distance(vec2(vUv.x*0.9,vUv.y*1.02),vec2(0.5)) - circleR));
+      // draw carpet
+      vec2 carpetGrid = vec2(
+            vUv.x + sin(vUv.y*100.0)*0.1,
+            vUv.y + sin(vUv.x*100.0)*0.1
+      );
+      strength *= step(0.005,abs(distance(carpetGrid,vec2(0.5)) - circleR*1.9));
+
       // color inversion
       strength =
             1.0 - 
             strength;
       
 
-      gl_FragColor = vec4(vec3(strength),1);
+      gl_FragColor = vec4(vec3(strength),1); // a parametric function of x and y
 }

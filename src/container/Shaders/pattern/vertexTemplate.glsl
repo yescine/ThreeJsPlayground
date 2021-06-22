@@ -11,7 +11,7 @@ void main(){
 
    // create plane
    vec4 modelPosition = modelMatrix * vec4(position,1.0);
-   modelPosition.y += -0.10;
+   modelPosition.y += -0.01;
 
    vec4 viewPosition = viewMatrix * modelPosition;
    vec4 projectionPosition = projectionMatrix *viewPosition;

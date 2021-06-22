@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import vertexShader from './vertexTemplate.glsl'
 import fragmentShader from './fragmentTemplate.glsl'
+import fragmentPerlin from './fragmentPerlin.glsl'
 
 const Group = new THREE.Group()
 const gui = new GUI({closed:false,width:400})
@@ -18,8 +19,18 @@ const material = new THREE.ShaderMaterial({
    transparent:true,
    side:THREE.DoubleSide
 })
+const materialPerlin = new THREE.ShaderMaterial({
+   vertexShader:vertexShader,
+   fragmentShader:fragmentPerlin,
+   transparent:true,
+   side:THREE.DoubleSide
+})
+
 const geometry = new THREE.PlaneBufferGeometry(4,4,32,32)
 const plane = new THREE.Mesh(geometry,material)
+const perlin = new THREE.Mesh(geometry,materialPerlin)
+perlin.rotateY(Math.PI*0.5);perlin.position.x=-2.1;perlin.position.z=2
+
 console.log(plane)
 
 /**
@@ -32,7 +43,7 @@ console.log(plane)
  */
 const ambientLight = new THREE.AmbientLight('#ffffff',0.2)
 Group.add(ambientLight)
-Group.add(plane)
+Group.add(plane, perlin)
 
 /**
  *  Helpers
