@@ -20,7 +20,7 @@ const material = new THREE.ShaderMaterial({
 })
 const geometry = new THREE.PlaneBufferGeometry(4,4,32,32)
 const plane = new THREE.Mesh(geometry,material)
-plane.rotation.x=-Math.PI/2;plane.material.metalness=0.7;plane.material.roughness=0.3;
+console.log(plane)
 
 /**
  * new Object 

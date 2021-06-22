@@ -5,7 +5,7 @@
 // attribute vec3 position;
 
 
-// varying vec2 vUV;
+varying vec2 vUv;
 
 void main(){
 
@@ -19,6 +19,6 @@ void main(){
    gl_Position = projectionPosition;
 
    // send data & Attribute to fragment
-   // vUV = uv;
+   vUv = uv;
 
 }
