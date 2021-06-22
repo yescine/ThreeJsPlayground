@@ -27,8 +27,9 @@ const materialPerlin = new THREE.ShaderMaterial({
 })
 
 const geometry = new THREE.PlaneBufferGeometry(4,4,32,32)
+const sphere = new THREE.SphereBufferGeometry(1,32,32);
 const plane = new THREE.Mesh(geometry,material)
-const perlin = new THREE.Mesh(geometry,materialPerlin)
+const perlin = new THREE.Mesh(sphere,materialPerlin)
 perlin.rotateY(Math.PI*0.5);perlin.position.x=-2.1;perlin.position.z=2
 
 console.log(plane)
