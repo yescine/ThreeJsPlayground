@@ -16,7 +16,8 @@ import gasp from 'gsap'
 // import BlenderModel from './container/BlenderModel'
 // import ShadersBasics from './container/Shaders/basics'
 // import PatternShaders from './container/Shaders/pattern'
-import OceanShaders from './container/Shaders/ocean'
+// import OceanShaders from './container/Shaders/ocean'
+import galaxyAnimated from './container/Shaders/galaxy' 
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -51,7 +52,8 @@ primaryScene.add(
    // BlenderModel,
    // ShadersBasics,
    // PatternShaders,
-   OceanShaders
+   // OceanShaders,
+   galaxyAnimated
 )
 
 
@@ -85,7 +87,8 @@ const lessonFolder = gui.addFolder('load lesson')
 // lessonFolder.add(PortFolio,'visible').name('PortFolio').setValue(false)
 // lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
 // lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
-lessonFolder.add(OceanShaders,'visible').name('Ocean Shaders').setValue(true)
+// lessonFolder.add(OceanShaders,'visible').name('Ocean Shaders').setValue(true)
+lessonFolder.add(galaxyAnimated,'visible').name('galaxy Animated').setValue(true)
 
 
 // Animation  
