@@ -11,6 +11,12 @@ body
 }
 h1{
     padding: 1rem;
+    border:3px solid;
+    border-image:linear-gradient(to right,red,purple);
+    border-radius: 5rem;
+    border-image-slice: 1;
+    margin: 0.5rem;
+
 }
 .dg.a{
     padding: 0.1rem 0px;

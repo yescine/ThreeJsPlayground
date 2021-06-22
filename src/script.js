@@ -15,7 +15,8 @@ import gasp from 'gsap'
 // import Physics from './container/physics/Ball'
 // import BlenderModel from './container/BlenderModel'
 // import ShadersBasics from './container/Shaders/basics'
-import PatternShaders from './container/Shaders/pattern'
+// import PatternShaders from './container/Shaders/pattern'
+import OceanShaders from './container/Shaders/ocean'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -49,7 +50,8 @@ primaryScene.add(
    // Physics,
    // BlenderModel,
    // ShadersBasics,
-   PatternShaders
+   // PatternShaders,
+   OceanShaders
 )
 
 
@@ -82,7 +84,8 @@ const lessonFolder = gui.addFolder('load lesson')
 // lessonFolder.add(LightAndTexture,'visible').name('Light and texture').setValue(false)
 // lessonFolder.add(PortFolio,'visible').name('PortFolio').setValue(false)
 // lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
-lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
+// lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
+lessonFolder.add(OceanShaders,'visible').name('Ocean Shaders').setValue(true)
 
 
 // Animation  
