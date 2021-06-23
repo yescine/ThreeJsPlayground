@@ -17,7 +17,8 @@ import gasp from 'gsap'
 // import ShadersBasics from './container/Shaders/basics'
 // import PatternShaders from './container/Shaders/pattern'
 // import OceanShaders from './container/Shaders/ocean'
-import galaxyAnimated from './container/Shaders/galaxy' 
+// import galaxyAnimated from './container/Shaders/galaxy' 
+import ModifiedMaterial from './container/ModifiedMaterial'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -53,7 +54,8 @@ primaryScene.add(
    // ShadersBasics,
    // PatternShaders,
    // OceanShaders,
-   galaxyAnimated
+   // galaxyAnimated
+   ModifiedMaterial
 )
 
 
@@ -89,8 +91,8 @@ const lessonFolder = gui.addFolder('load lesson')
 // lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
 // lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
 // lessonFolder.add(OceanShaders,'visible').name('Ocean Shaders').setValue(true)
-lessonFolder.add(galaxyAnimated,'visible').name('Quassar Animated').setValue(true)
-
+// lessonFolder.add(galaxyAnimated,'visible').name('Quassar Animated').setValue(false)
+lessonFolder.add(ModifiedMaterial,'visible').name('Modified Material').setValue(true)
 
 // Animation  
 const clock = new THREE.Clock()
