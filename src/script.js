@@ -34,7 +34,7 @@ const FOV = 65,
    height:window.innerHeight // 600
 },
  camera = new THREE.PerspectiveCamera(FOV,sizes.width/sizes.height,1,1000)
- camera.position.z=4; camera.position.x=3; camera.position.y=3;
+ camera.position.z=5; camera.position.x=4; camera.position.y=3;
 
  // camera looking at
 let origin =[0,0,0]; camera.lookAt(...origin)
@@ -75,7 +75,8 @@ renderer.physicallyCorrectLights=false
 renderer.outputEncoding = THREE.sRGBEncoding
 
 
-resize({sizes,camera,renderer});getFullScreen(canvas);
+resize({sizes,camera,renderer});
+getFullScreen(canvas);
 
 const control = new OrbitControls(camera,canvas)
 control.enableDamping=true
@@ -88,7 +89,7 @@ const lessonFolder = gui.addFolder('load lesson')
 // lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
 // lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
 // lessonFolder.add(OceanShaders,'visible').name('Ocean Shaders').setValue(true)
-lessonFolder.add(galaxyAnimated,'visible').name('galaxy Animated').setValue(true)
+lessonFolder.add(galaxyAnimated,'visible').name('Quassar Animated').setValue(true)
 
 
 // Animation  

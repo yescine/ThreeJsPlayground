@@ -10,7 +10,7 @@ const textureLoader = new THREE.TextureLoader()
 const StarColorTexture = textureLoader.load('/textures/particles/11.png')
 
 const parameterG = {
-   count:30000,size:0.1,radius:5,branche:3,spin:1,randomness:0.7,randomnessPower:4,
+   count:100000,size:0.1,radius:5,branche:3,spin:1,randomness:0.7,randomnessPower:4,
    insideColor:'#ff6030',outsideColor:'#1b3984',mixt:0.2
 
 }
@@ -35,6 +35,9 @@ const generateGalaxy = () =>{
    geometry = new THREE.BufferGeometry()
    const positions = new Float32Array(parameterG.count*3)
    const colors = new Float32Array(parameterG.count*3)
+   const scales = new Float32Array(parameterG.count*1)
+   const randomness = new Float32Array(parameterG.count*3)
+
    const colorInside = new THREE.Color(parameterG.insideColor)
    const colorOutside = new THREE.Color(parameterG.outsideColor)
 
@@ -44,13 +47,10 @@ const generateGalaxy = () =>{
       const brancheAngle = ((idx%branche)/branche) * (2*Math.PI)
       const spinAngle = randRadius*spin
 
-      const randomX = Math.pow(Math.random(),randomnessPower)*(Math.random()<0.5?1:-1)*parameterG.randomness
-      const randomY= Math.pow(Math.random(),randomnessPower)*(Math.random()<0.5?1:-1)*parameterG.randomness
-      const randomZ= Math.pow(Math.random(),randomnessPower)*(Math.random()<0.5?1:-1)*parameterG.randomness
       // Position
-      positions[i3+0] = Math.cos(brancheAngle+spinAngle)*randRadius + randomX
-      positions[i3+1] = randomY
-      positions[i3+2] = Math.sin(brancheAngle + spinAngle)*randRadius + randomZ
+      positions[i3+0] = Math.cos(brancheAngle+spinAngle)*randRadius 
+      positions[i3+1] = 0
+      positions[i3+2] = Math.sin(brancheAngle + spinAngle)*randRadius 
       
       // Color
       const mixtColor = colorInside.clone()
@@ -60,10 +60,25 @@ const generateGalaxy = () =>{
       colors[i3+1]=  mixtColor.g
       colors[i3+2]=  mixtColor.b
 
+      // scales
+      scales[idx] = Math.random() +0.1
+
+      // randomness
+      const randomX = Math.pow(Math.random(),randomnessPower)*(Math.random()<0.5?1:-1)*parameterG.randomness
+      const randomY= Math.pow(Math.random(),randomnessPower)*(Math.random()<0.5?1:-1)*parameterG.randomness
+      const randomZ= Math.pow(Math.random(),randomnessPower)*(Math.random()<0.5?1:-1)*parameterG.randomness
+
+      randomness[i3+0] = randomX;
+      randomness[i3+1] = randomY;
+      randomness[i3+2] = randomZ;
+
    }
 
    geometry.setAttribute('position', new THREE.BufferAttribute(positions,3))
    geometry.setAttribute('color', new THREE.BufferAttribute(colors,3))
+   geometry.setAttribute('aScales', new THREE.BufferAttribute(scales,1))
+   geometry.setAttribute('aRandomness', new THREE.BufferAttribute(randomness,3))
+
 
    /**
     * Material
@@ -73,7 +88,13 @@ const generateGalaxy = () =>{
       depthWrite:false,
       vertexColors:true,
       vertexShader:vertexShader,
-      fragmentShader:fragmentShader
+      fragmentShader:fragmentShader,
+      uniforms:{
+         uSize:{value:40.0},
+         uTime:{value:0},
+         uTexture:{StarColorTexture}
+      },
+
    })
 
    /**
@@ -82,6 +103,7 @@ const generateGalaxy = () =>{
    points = new THREE.Points(
       geometry,material
    )
+   points.rotateZ(0.1)
    Group.add(points)
 }
 
@@ -95,10 +117,10 @@ let axis = new THREE.AxesHelper()
 Group.add(axis)
 
 const clock = new THREE.Clock()
-const gFolder = gui.addFolder('Galaxy Animated');gFolder.close()
+const gFolder = gui.addFolder('Quassar Animated');gFolder.close()
 gFolder.add(axis,'visible').name('Axis xyz').setValue(true)
 gFolder.add(ambientLight,'intensity',0,1,0.0001).name('Ambient light')
-gFolder.add(parameterG,'count',100,100000,100).name('star count').onFinishChange(generateGalaxy)
+gFolder.add(parameterG,'count',1000,500000,100).name('star count').onFinishChange(generateGalaxy)
 gFolder.add(parameterG,'size',0.01,1,0.001).name('size').onFinishChange(generateGalaxy)
 gFolder.add(parameterG,'radius',2,10,0.1).name('Radius').onFinishChange(generateGalaxy)
 gFolder.add(parameterG,'branche',2,15,1).name('branche').onFinishChange(generateGalaxy)
@@ -112,7 +134,8 @@ gFolder.add(parameterG,'mixt',0,1,0.001).onChange(generateGalaxy)
 
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
-   
+
+   material.uniforms.uTime.value=elapsedTime;
    window.requestAnimationFrame(tick)
 
 }
