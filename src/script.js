@@ -18,7 +18,7 @@ import gasp from 'gsap'
 // import PatternShaders from './container/Shaders/pattern'
 // import OceanShaders from './container/Shaders/ocean'
 // import galaxyAnimated from './container/Shaders/galaxy' 
-import ModifiedMaterial from './container/ModifiedMaterial'
+import ModifiedMaterial from './container/Shaders/modifiedMaterial'
 
 // import util
 import {resize,getFullScreen} from './util/browser'

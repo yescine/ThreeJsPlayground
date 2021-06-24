@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
-
+import vertexShader from './modifiedMaterial.glsl'
 const Group = new THREE.Group()
 const gui = new GUI({closed:false})
 
@@ -16,8 +16,21 @@ const material = new THREE.MeshStandardMaterial({
    map:mapTexture,
    normalMap:normalTexture
 })
+const customUniforms = {
+   uTime:{value:0}
+}
 material.onBeforeCompile= (shader)=>{
    console.log(shader)
+   shader.uniforms.uTime = customUniforms.uTime
+   shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>',vertexShader)
+   shader.vertexShader = shader.vertexShader.replace('#include <common>',
+   `
+   uniform float uTime;
+   mat2 rotate (float _angle){
+      return mat2(cos(_angle),-sin(_angle),sin(_angle),cos(_angle));
+   }
+   `)
+    
 }
 
 const plane = new THREE.Mesh(
@@ -66,6 +79,7 @@ newLesson.add(axis,'visible').name('Axis xyz').setValue(true)
 const clock = new THREE.Clock()
 const tick = ()=>{
    const elapsedTime = clock.getElapsedTime()
+   customUniforms.uTime.value = elapsedTime*5
    window.requestAnimationFrame(tick)
 
 }
