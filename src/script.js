@@ -18,7 +18,8 @@ import gasp from 'gsap'
 // import PatternShaders from './container/Shaders/pattern'
 // import OceanShaders from './container/Shaders/ocean'
 // import galaxyAnimated from './container/Shaders/galaxy' 
-import ModifiedMaterial from './container/Shaders/modifiedMaterial'
+// import ModifiedMaterial from './container/Shaders/modifiedMaterial'
+import postProcessing from './container/postProcessing'
 
 // import util
 import {resize,getFullScreen} from './util/browser'
@@ -32,7 +33,7 @@ const primaryScene = new THREE.Scene()
 const FOV = 65,
  sizes = {
    width:window.innerWidth, // 800
-   height:window.innerHeight // 600
+   height:window.innerHeight-64*2 // 600
 },
  camera = new THREE.PerspectiveCamera(FOV,sizes.width/sizes.height,1,1000)
  camera.position.z=5; camera.position.x=4; camera.position.y=3;
@@ -55,7 +56,8 @@ primaryScene.add(
    // PatternShaders,
    // OceanShaders,
    // galaxyAnimated
-   ModifiedMaterial
+   // ModifiedMaterial,
+   postProcessing
 )
 
 
@@ -89,10 +91,11 @@ const lessonFolder = gui.addFolder('load lesson')
 // lessonFolder.add(LightAndTexture,'visible').name('Light and texture').setValue(false)
 // lessonFolder.add(PortFolio,'visible').name('PortFolio').setValue(false)
 // lessonFolder.add(ShadersBasics,'visible').name('Shaders Basics').setValue(false)
-// lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(true)
+// lessonFolder.add(PatternShaders,'visible').name('Pattern Shaders').setValue(false)
 // lessonFolder.add(OceanShaders,'visible').name('Ocean Shaders').setValue(true)
 // lessonFolder.add(galaxyAnimated,'visible').name('Quassar Animated').setValue(false)
-lessonFolder.add(ModifiedMaterial,'visible').name('Modified Material').setValue(true)
+// lessonFolder.add(ModifiedMaterial,'visible').name('Modified Material').setValue(true)
+lessonFolder.add(postProcessing,'visible').name('Post Processing').setValue(true)
 
 // Animation  
 const clock = new THREE.Clock()
