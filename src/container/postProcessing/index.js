@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+
 const Group = new THREE.Group()
 const gui = new GUI({closed:false})
 
@@ -15,7 +16,7 @@ const material = new THREE.MeshStandardMaterial({
 })
 
 const plane = new THREE.Mesh(
-   new THREE.PlaneBufferGeometry(8,8),
+   new THREE.PlaneBufferGeometry(10,10),
    new THREE.MeshStandardMaterial({side: THREE.DoubleSide,metalness:0.5,roughness:0.2})
 )
 plane.rotation.x=-Math.PI/2
@@ -26,10 +27,10 @@ plane.rotation.x=-Math.PI/2
 
  gltfLoader.load('/models/DamagedHelmet/glTF/DamagedHelmet.gltf',
  (gltf)=>{
-    console.log(gltf)
+   console.log(gltf)
    const mesh = gltf.scene.children[0]
    // mesh.material = material
-   mesh.position.y=1
+   mesh.position.y=0.9
    Group.add(mesh)
  }
 )
