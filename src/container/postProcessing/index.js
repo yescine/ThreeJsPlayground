@@ -1,12 +1,13 @@
 import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import {loadingManager} from '../../progressLoader'
 
 const Group = new THREE.Group()
 const gui = new GUI({closed:false})
 
-const gltfLoader = new GLTFLoader()
-const textureLoader = new THREE.TextureLoader()
+const gltfLoader = new GLTFLoader(loadingManager)
+const textureLoader = new THREE.TextureLoader(loadingManager)
 const mapTexture = textureLoader.load('/models/DamagedHelmet/glTF/Default_albedo.jpg');
 mapTexture.encoding = THREE.sRGBEncoding;
 const normalTexture = textureLoader.load('/models/DamagedHelmet/glTF/Default_normal.jpg')

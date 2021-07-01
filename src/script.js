@@ -1,7 +1,8 @@
 import './style.css'
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
-import {postProcessEffectComposer} from './container/postProcessing/process'
+import Stats from 'stats.js'
+// import {postProcessEffectComposer} from './container/postProcessing/process'
 
 import {GUI} from 'dat.gui'
 import gasp from 'gsap'
@@ -88,6 +89,10 @@ getFullScreen(canvas);
 const control = new OrbitControls(camera,canvas)
 control.enableDamping=true
  
+// -- statistique
+const stats = new Stats()
+stats.showPanel(0)
+document.body.appendChild(stats.dom)
 // -- Gui
 const lessonFolder = gui.addFolder('load lesson')
 
@@ -105,6 +110,7 @@ const clock = new THREE.Clock()
 
 
 const tick = () =>{
+   stats.begin()
    const currentTime = Date.now()  
    renderer.render(primaryScene,camera)
    // -- postProcessing
@@ -115,8 +121,14 @@ const tick = () =>{
 
    control.update()
    window.requestAnimationFrame(tick)
+
+   stats.end()
+
  }
 tick()
 // TickBasics()
+
+console.log('\x1b[36m%s\x1b[0m', 'Performance Data');
+console.log(renderer.info)
 
 export const Camera = camera
